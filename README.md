@@ -34,3 +34,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Environment variables
+
+Create a `.env.local` in the project root with the following keys for auth and Convex:
+
+```bash
+# Convex
+NEXT_PUBLIC_CONVEX_URL= # from `npx convex dev` output or Convex dashboard
+CONVEX_SITE_URL= http://localhost:3000
+
+# Google OAuth (https://console.cloud.google.com/)
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+
+# Optional legacy aliases supported by the code
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+For local development, set `CONVEX_SITE_URL` to your Next.js site origin (e.g. `http://localhost:3000`). Ensure your Google OAuth credentials have the Authorized redirect URI: `http://localhost:3000/api/auth/callback/google`.
