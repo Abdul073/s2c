@@ -25,3 +25,40 @@ export const SubscriptionEntitlementQuery = async () => {
   );
   return { entitlement, profileName: profile?.name };
 };
+
+export const ProjectsQuery = async () => {
+  const rawProfile = await ProfileQuery();
+  const profile = normalizeProfile(
+    rawProfile._valueJSON as unknown as ConvexUserRaw | null
+  );
+
+  if (!profile?.id) {
+    return { projects: null, profile: null };
+  }
+
+  const projects = await preloadQuery(
+    api.Projects.getUserProjects,
+    { userId: profile.id as Id<"users"> },
+    { token: await convexAuthNextjsToken() }
+  );
+  return { projects, profile };
+};
+
+export const StyleGuideQuery = async (projectId: string) => {
+  const styleGudide = await preloadQuery(
+    api.Projects.getProjectStyleGuide,
+    { projectId: projectId as Id<"projects"> },
+    { token: await convexAuthNextjsToken() }
+  );
+  return { styleGudide };
+};
+
+export const MoodBoardImagesQuery = async (projectId: string) => {
+  const images = await preloadQuery(
+    api.moodboard.getMoodBoardImages,
+    { projectId: projectId as Id<"projects"> },
+    { token: await convexAuthNextjsToken() }
+  );
+
+  return { images };
+};
